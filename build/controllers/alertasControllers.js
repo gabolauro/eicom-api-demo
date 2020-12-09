@@ -1,0 +1,53 @@
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const database_1 = __importDefault(require("../database"));
+class AlertasController {
+    //Metodo GET
+    list(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const alertas = yield database_1.default.query('SELECT * FROM adv ORDER BY fecha DESC LIMIT 0,10');
+            res.json(alertas);
+        });
+    }
+    //Metodo GET
+    getone(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const id = req.params.id;
+            const alerta = yield database_1.default.query(`SELECT * FROM adv WHERE id_adv = ${id}`);
+            if (alerta.length > 0) {
+                res.json(alerta[0]);
+            }
+            else {
+                res.status(400).json({ text: 'Registro no encontrado' });
+            }
+            // res.json(alerta)
+            console.log(alerta);
+        });
+    }
+    //Metodo  POST
+    create(req, res) {
+        res.json({ text: 'Alerta cargada' });
+    }
+    //Metodo  PUT
+    update(req, res) {
+        res.json({ text: 'Alerta actualizada ' + req.params.id });
+    }
+    //Metodo  DELETE
+    delete(req, res) {
+        res.json({ text: 'Alerta borrada ' + req.params.id });
+    }
+}
+const alertasControler = new AlertasController();
+exports.default = alertasControler;
