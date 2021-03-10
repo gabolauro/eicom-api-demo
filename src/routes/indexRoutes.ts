@@ -12,7 +12,8 @@ class IndexRoutes {
 	}
 
 	config(): void {
-		this.router.get('/', indexController.index)
+		// this.router.get('/', (req, res) => res.send( 'Hello' ) );
+		this.router.get('/', indexController.index);
 	}
 
 }
